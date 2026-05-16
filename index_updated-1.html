@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Hafar Al Batin – Weekly Route Plan (May 2026)</title>
+<style>
+    :root{
+      --pageBg: var(--bg);
+      --panelBg: rgba(255,255,255,.72);
+
+      /* Fonts (offline-safe / iOS-friendly) */
+      --fontBody: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
+      --fontTitle: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif;
+      --fontPromoter: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif;
+
+      --bg:#EEF5F6;
+      --titleColor:#B3375A;
+      --promoterColor:#46878A;
+
+      --text:#111;
+      --muted:#555;
+      --link:#0077cc;
+
+      /* Button colors (03 → 09) */
+
+      --sun:#005F73;
+      --mon:#0081A7;
+      --tue:#00AFB9;
+      --wed:#DFFFFD;
+      --thu:#FED9B7;
+      --fri:#F6A89E;
+      --sat:#F07167;
+ /* 09 */
+
+      --shadowBtn: 0 4px 10px rgba(0,0,0,.18);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: var(--fontBody);
+      background: var(--pageBg);
+      color: var(--text);
+      padding: 14px 14px 28px;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      text-align:left;
+    }
+
+    /* Title: 2 lines only, centered */
+    h1{
+      font-family: var(--fontTitle);
+      text-align:center;
+      color: var(--titleColor);
+      margin: 16px 0 10px;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+    .titleLine1{
+      display:block;
+      font-size: clamp(22px, 6vw, 40px);
+      white-space: nowrap;
+    }
+    .titleLine2{
+      display:block;
+      font-size: clamp(18px, 5.2vw, 32px);
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+
+    /* Subtitle under title (exact text) */
+    .subtitle{
+      text-align:center;
+      color: var(--muted);
+      font-size: clamp(12px, 3.2vw, 14px);
+      margin: 0 0 18px;
+      line-height: 1.35;
+    }
+
+    /* Promoter name: LEFT aligned */
+    h2{
+      font-family: var(--fontPromoter);
+      font-size: clamp(18px, 4.6vw, 28px);
+      color: var(--promoterColor);
+      margin: 14px 0 10px;
+      font-weight: 800;
+      text-align:left;
+    }
+
+    /* No white cards */
+    .promoter{
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    /* Buttons: smaller + LEFT aligned */
+    .days{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 8px 0 10px;
+      align-items: stretch;
+      justify-items: stretch;
+    }
+
+    .dayBtn{
+      width: 100%;
+      padding: 11px 0;
+      border: 0;
+      border-radius: 28px;
+      color:#fff; /* ALWAYS WHITE */
+      font-size: 14px;
+      font-weight: 800;
+      cursor:pointer;
+      box-shadow: var(--shadowBtn);
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+      text-align:center;
+      white-space: nowrap;
+    }
+    .dayBtn:active{ transform: scale(.98); }
+    .dayBtn:hover{ filter: brightness(1.03); }
+    .dayBtn[aria-expanded="true"]{
+      outline: 3px solid rgba(0,0,0,.10);
+      outline-offset: 2px;
+    }
+
+    .dayBtn.sun{ background: var(--sun); }
+    .dayBtn.mon{ background: var(--mon); }
+    .dayBtn.tue{ background: var(--tue); }
+    .dayBtn.wed{
+      background: var(--wed);
+      color:#fff; /* white fill */
+      -webkit-text-stroke: 0.55px #005F73; /* thin dark outline */
+      /* Fallback outline for browsers without text-stroke */
+      text-shadow:
+        0.6px 0   0 #005F73,
+       -0.6px 0   0 #005F73,
+        0   0.6px 0 #005F73,
+        0  -0.6px 0 #005F73;
+    }
+    .dayBtn.thu{ background: var(--thu); }
+    .dayBtn.fri{ background: var(--fri); }
+    .dayBtn.sat{ background: var(--sat); }
+
+    /* Panels */
+    .panel{
+      display:none;
+      margin: 0 0 10px;
+      max-width: 720px;
+      background: var(--panelBg);
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-align:left;
+    }
+    .panel.show{ display:block; }
+
+    .row{
+      margin: 4px 0;
+      line-height: 1.35;
+      font-size: 14px;
+    }
+    .label{ font-weight: 800; margin-right: 6px; }
+
+    a{ color: var(--link); font-weight: 700; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    /* Divider */
+    hr.divider{
+      border: none;
+      border-bottom: 2px solid var(--promoterColor);
+      width: 100%;
+      margin: 18px 0;
+    }
+
+    /* Bottom note */
+    p.note{
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 28px;
+      text-align:center;
+    }
+    /* Top bar (toggle in its own row) */
+    .topbar{
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      margin: 8px 0 6px;
+    }
+
+    
+    .themeToggle{
+      appearance:none;
+      border: 2px solid rgba(0,0,0,.28);
+      background: rgba(255,255,255,.92);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,.10);
+      user-select: none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+    html[data-theme="dark"] .themeToggle{
+      border-color: rgba(255,255,255,.32);
+      background: rgba(18,18,18,.72);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,.35);
+    }
+    .themeToggle:active{ transform: scale(.99); }
+@media (max-width: 420px){
+      .dayBtn{ font-size: 13px; padding: 10px 0; border-radius: 24px; }
+      .days{ gap: 8px; }
+      .panel{ max-width: 92vw; }
+    }
+  
+    /* ===== Dark theme (manual toggle) ===== */
+    html[data-theme="dark"]{
+      --pageBg:#0b1220;
+      --panelBg: rgba(255,255,255,.10);
+      --text:#f2f5f9;
+      --muted:#b8c0cc;
+      --link:#7fb7ff;
+      --toggleBg: rgba(255,255,255,.10);
+      --toggleText: #f2f5f9;
+      --toggleBorder: rgba(255,255,255,.18);
+    }
+
+    /* If user didn't choose, follow system preference */
+    @media (prefers-color-scheme: dark){
+      html:not([data-theme]){
+        --pageBg:#0b1220;
+        --panelBg: rgba(255,255,255,.10);
+        --text:#f2f5f9;
+        --muted:#b8c0cc;
+        --link:#7fb7ff;
+        --toggleBg: rgba(255,255,255,.10);
+        --toggleText: #f2f5f9;
+        --toggleBorder: rgba(255,255,255,.18);
+      }
+    }
+
+  
+/* WED text: outlined ONLY in Light Mode */
+.dayBtn.wed{ color:#ffffff; } /* default */
+
+body:not(.dark) .dayBtn.wed{
+  color:#ffffff;                 /* white fill */
+  -webkit-text-stroke: 0.6px #B5C1C1;  /* very light gray outline */
+  text-stroke: 0.6px #B5C1C1;
+  text-shadow: 0 0 0.6px rgba(181,193,193,0.35); /* soft edge */
+}
+
+body.dark .dayBtn.wed{
+  -webkit-text-stroke: 0px transparent; /* no outline in Dark Mode */
+  text-shadow: none;
+}
+  
+
+    /* Direct Sales special section */
+    .directDivider{
+      border: none;
+      border-bottom: 3px dashed #B3375A;
+      width: 100%;
+      margin: 24px 0 18px;
+    }
+    .directSalesTitle{
+      font-family: var(--fontTitle);
+      color:#B3375A;
+      font-weight:900;
+      font-size: clamp(19px, 4.8vw, 30px);
+      margin: 8px 0 12px;
+      text-align:left;
+    }
+    .directMeta{
+      max-width: 920px;
+      background: var(--panelBg);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin: 0 0 12px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    .tableWrap{
+      max-width: 100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      background: var(--panelBg);
+      padding: 8px;
+    }
+    table.rotation{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      font-size: 13px;
+    }
+    table.rotation th,
+    table.rotation td{
+      text-align:left;
+      padding: 10px 9px;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      vertical-align: top;
+    }
+    html[data-theme="dark"] table.rotation th,
+    html[data-theme="dark"] table.rotation td{
+      border-bottom-color: rgba(255,255,255,.14);
+    }
+    table.rotation th{
+      color:#fff;
+      background:#B3375A;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    table.rotation tr:last-child td{ border-bottom:0; }
+    .dayOffCell{ font-weight:900; color: var(--titleColor); }
+    .exceptionRow{ color: var(--titleColor); font-weight:800; }
+</style>
+<!-- Fonts: Poppins (Title) + Inter (Body) -->
+</head>
+<body>
+<div class="wrap">
+<div class="topbar">
+<button class="themeToggle" id="themeToggle" type="button">Dark Mode 🌙</button>
+</div>
+<h1>
+<span class="titleLine1">Hafar Al Batin – Weekly Route Plan</span>
+<span class="titleLine2">(May 2026)</span>
+</h1>
+<p class="subtitle">Weekly pattern (Sunday → Saturday). Tap a day to show details. Location links open Google Maps. 31 May 2026 is Day Off – World No Tobacco Day.</p>
+<section class="promoter"><h2>Hassan Kamal</h2><div class="days"><button aria-expanded="false" class="dayBtn sun" data-target="hassan-sun">SUN</button><button aria-expanded="false" class="dayBtn mon" data-target="hassan-mon">MON</button><button aria-expanded="false" class="dayBtn tue" data-target="hassan-tue">TUE</button><button aria-expanded="false" class="dayBtn wed" data-target="hassan-wed">WED</button><button aria-expanded="false" class="dayBtn thu" data-target="hassan-thu">THU</button><button aria-expanded="false" class="dayBtn fri" data-target="hassan-fri">FRI</button><button aria-expanded="false" class="dayBtn sat" data-target="hassan-sat">SAT</button></div><div class="panel" id="hassan-sun"><div class="row"><span class="label">Day off:</span>Day off</div><div class="row exceptionRow"><span class="label">Also:</span>31 May 2026 – World No Tobacco Day</div></div><div class="panel" id="hassan-mon"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="hassan-tue"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="hassan-wed"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="hassan-thu"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="hassan-fri"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="hassan-sat"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Basha_SIS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260118072</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/gQj9Krm4d39KC7wd9?g_st=aw" target="_blank">Open Google Maps</a></div></div></section><hr class="divider"/>
+<section class="promoter"><h2>Nasser Alhubaishi</h2><div class="days"><button aria-expanded="false" class="dayBtn sun" data-target="nasser-sun">SUN</button><button aria-expanded="false" class="dayBtn mon" data-target="nasser-mon">MON</button><button aria-expanded="false" class="dayBtn tue" data-target="nasser-tue">TUE</button><button aria-expanded="false" class="dayBtn wed" data-target="nasser-wed">WED</button><button aria-expanded="false" class="dayBtn thu" data-target="nasser-thu">THU</button><button aria-expanded="false" class="dayBtn fri" data-target="nasser-fri">FRI</button><button aria-expanded="false" class="dayBtn sat" data-target="nasser-sat">SAT</button></div><div class="panel" id="nasser-sun"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div><div class="row exceptionRow"><span class="label">Exception:</span>31 May 2026 – Day Off – World No Tobacco Day</div></div><div class="panel" id="nasser-mon"><div class="row"><span class="label">Day off:</span>Day off</div></div><div class="panel" id="nasser-tue"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="nasser-wed"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="nasser-thu"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="nasser-fri"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="nasser-sat"><div class="row"><span class="label">Outlet:</span>HAB_Sharikah Mizaj Al Dubai_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>9661221149</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/7H1L9eyxrKmN7mhv9?g_st=aw" target="_blank">Open Google Maps</a></div></div></section><hr class="divider"/>
+<section class="promoter"><h2>Salem Kharmeet</h2><div class="days"><button aria-expanded="false" class="dayBtn sun" data-target="salem-sun">SUN</button><button aria-expanded="false" class="dayBtn mon" data-target="salem-mon">MON</button><button aria-expanded="false" class="dayBtn tue" data-target="salem-tue">TUE</button><button aria-expanded="false" class="dayBtn wed" data-target="salem-wed">WED</button><button aria-expanded="false" class="dayBtn thu" data-target="salem-thu">THU</button><button aria-expanded="false" class="dayBtn fri" data-target="salem-fri">FRI</button><button aria-expanded="false" class="dayBtn sat" data-target="salem-sat">SAT</button></div><div class="panel" id="salem-sun"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div><div class="row exceptionRow"><span class="label">Exception:</span>31 May 2026 – Day Off – World No Tobacco Day</div></div><div class="panel" id="salem-mon"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="salem-tue"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="salem-wed"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="salem-thu"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="salem-fri"><div class="row"><span class="label">Day off:</span>Day off</div></div><div class="panel" id="salem-sat"><div class="row"><span class="label">Outlet:</span>HAB_Al Bahrain Lil Muasal Wa Al Faham_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>966122111095</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/iQKUuCQAVKQNmMJU6?g_st=ac" target="_blank">Open Google Maps</a></div></div></section><hr class="divider"/>
+<section class="promoter"><h2>Monzer Al-Ali</h2><div class="days"><button aria-expanded="false" class="dayBtn sun" data-target="monzer-sun">SUN</button><button aria-expanded="false" class="dayBtn mon" data-target="monzer-mon">MON</button><button aria-expanded="false" class="dayBtn tue" data-target="monzer-tue">TUE</button><button aria-expanded="false" class="dayBtn wed" data-target="monzer-wed">WED</button><button aria-expanded="false" class="dayBtn thu" data-target="monzer-thu">THU</button><button aria-expanded="false" class="dayBtn fri" data-target="monzer-fri">FRI</button><button aria-expanded="false" class="dayBtn sat" data-target="monzer-sat">SAT</button></div><div class="panel" id="monzer-sun"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div><div class="row exceptionRow"><span class="label">Exception:</span>31 May 2026 – Day Off – World No Tobacco Day</div></div><div class="panel" id="monzer-mon"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="monzer-tue"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="monzer-wed"><div class="row"><span class="label">Day off:</span>Day off</div></div><div class="panel" id="monzer-thu"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="monzer-fri"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div></div><div class="panel" id="monzer-sat"><div class="row"><span class="label">Outlet:</span>HAB_Talal Farhan Hamed AlAnezy Market_DS(GT)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260117431</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/yPKZyqJAqm6ftEUa7?g_st=ac" target="_blank">Open Google Maps</a></div></div></section><hr class="divider"/>
+<section class="promoter"><h2>Mohammed Ali</h2><div class="days"><button aria-expanded="false" class="dayBtn sun" data-target="mohammed-ali-sun">SUN</button><button aria-expanded="false" class="dayBtn mon" data-target="mohammed-ali-mon">MON</button><button aria-expanded="false" class="dayBtn tue" data-target="mohammed-ali-tue">TUE</button><button aria-expanded="false" class="dayBtn wed" data-target="mohammed-ali-wed">WED</button><button aria-expanded="false" class="dayBtn thu" data-target="mohammed-ali-thu">THU</button><button aria-expanded="false" class="dayBtn fri" data-target="mohammed-ali-fri">FRI</button><button aria-expanded="false" class="dayBtn sat" data-target="mohammed-ali-sat">SAT</button></div><div class="panel" id="mohammed-ali-sun"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div><div class="row exceptionRow"><span class="label">Exception:</span>31 May 2026 – Day Off – World No Tobacco Day</div></div><div class="panel" id="mohammed-ali-mon"><div class="row"><span class="label">Day off:</span>Day off</div></div><div class="panel" id="mohammed-ali-tue"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="mohammed-ali-wed"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="mohammed-ali-thu"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="mohammed-ali-fri"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div></div><div class="panel" id="mohammed-ali-sat"><div class="row"><span class="label">Outlet:</span>HAB_Sharikath Qimmat Al Nakhla_DS(TB)_MN_BR</div><div class="row"><span class="label">Unicode:</span>96612260113830</div><div class="row"><span class="label">Shift:</span>Night</div><div class="row"><a href="https://maps.app.goo.gl/DWHJSJA4tBR4PCG96?g_st=aw" target="_blank">Open Google Maps</a></div></div></section><hr class="divider"/>
+
+<hr class="directDivider"/>
+<section class="promoter directSales">
+  <div class="directSalesTitle">Direct Sales – Date-Based Rotation Schedule</div>
+  <div class="directMeta">
+    <div class="row"><span class="label">Promoter:</span>Mohammed Jameel Alsayed</div>
+    <div class="row"><span class="label">Day Off:</span>Tuesday</div>
+    <div class="row"><span class="label">Shift:</span>Night</div>
+  </div>
+  <div class="tableWrap">
+    <table class="rotation">
+      <thead><tr><th>Date Range</th><th>Outlet</th><th>Unicode</th><th>Shift</th><th>Location</th></tr></thead>
+      <tbody><tr><td>13–14 May</td><td>HAB_Naif Jadaan Naif AlShamri Market_BR-DS(GT)_MN_BR</td><td>96612260116172</td><td>Night</td><td><a href="https://maps.app.goo.gl/CzZEis1CHdDAv5Ja7?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>15–16 May</td><td>HAB_Markaz Basha 2_BR-DS(GT)_MN_BR</td><td>96612260113210</td><td>Night</td><td><a href="https://maps.app.goo.gl/fLhAYkGKwmPsWtPH7?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>17–18 May</td><td>HAB_Afaq Al Sulaimaniya (Al Mumlika)_BR-DS(GT)_MN_BR</td><td>96612211226</td><td>Night</td><td><a href="https://maps.app.goo.gl/LRRHEMTKcYc1yLak9?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>19 May</td><td><span class="dayOffCell">Day Off – Tuesday</span></td><td>—</td><td>—</td><td>—</td></tr><tr><td>20–21 May</td><td>HAB_Tamwinat Nakhla AlDoha_BR-DS(GT)_MN_BR</td><td>96612260118521</td><td>Night</td><td><a href="https://maps.app.goo.gl/REtXMEDsAyCe9eyXA?g_st=ac" target="_blank">Open Google Maps</a></td></tr><tr><td>22–23 May</td><td>HAB_Nakhat AlQaid_BR-DS(GT)_MN_BR</td><td>96612260118158</td><td>Night</td><td><a href="https://maps.app.goo.gl/b1rcH5QL3KApvWvTA?g_st=ac" target="_blank">Open Google Maps</a></td></tr><tr><td>24–25 May</td><td>HAB_Naif Jadaan Naif AlShamri Market_BR-DS(GT)_MN_BR</td><td>96612260116172</td><td>Night</td><td><a href="https://maps.app.goo.gl/CzZEis1CHdDAv5Ja7?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>26 May</td><td><span class="dayOffCell">Day Off – Tuesday</span></td><td>—</td><td>—</td><td>—</td></tr><tr><td>27–28 May</td><td>HAB_Markaz Basha 2_BR-DS(GT)_MN_BR</td><td>96612260113210</td><td>Night</td><td><a href="https://maps.app.goo.gl/fLhAYkGKwmPsWtPH7?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>29–30 May</td><td>HAB_Afaq Al Sulaimaniya (Al Mumlika)_BR-DS(GT)_MN_BR</td><td>96612211226</td><td>Night</td><td><a href="https://maps.app.goo.gl/LRRHEMTKcYc1yLak9?g_st=aw" target="_blank">Open Google Maps</a></td></tr><tr><td>31 May</td><td><span class="dayOffCell">Day Off – World No Tobacco Day</span></td><td>—</td><td>—</td><td>—</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<p class="note">Note: Weekly template for May 2026. 31 May 2026 is marked as Day Off – World No Tobacco Day for all promoters.</p>
+</div>
+<script>
+    (function(){
+      const buttons = document.querySelectorAll(".dayBtn");
+
+      function closePanelsInSamePromoter(btn){
+        const promoter = btn.closest(".promoter");
+        if(!promoter) return;
+        promoter.querySelectorAll(".panel").forEach(p => p.classList.remove("show"));
+        promoter.querySelectorAll(".dayBtn").forEach(b => b.setAttribute("aria-expanded","false"));
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          const panel = document.getElementById(targetId);
+          if(!panel) return;
+
+          // If this panel is already open, close it directly (failsafe).
+          if(panel.classList.contains("show")){
+            panel.classList.remove("show");
+            btn.setAttribute("aria-expanded","false");
+            return;
+          }
+
+          // Otherwise, close others in the same promoter then open this one.
+          closePanelsInSamePromoter(btn);
+          panel.classList.add("show");
+          btn.setAttribute("aria-expanded","true");
+        });
+      });
+    })();
+  
+    (function(){
+      const htmlEl = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      if(!toggle) return;
+
+      function setTheme(mode){
+        if(mode === "dark"){
+          htmlEl.setAttribute("data-theme","dark");
+          document.body.classList.add("dark");
+          toggle.textContent = "Light Mode ☀️";
+          try{ localStorage.setItem("hailTheme","dark"); }catch(e){}
+        }else{
+          htmlEl.removeAttribute("data-theme");
+          document.body.classList.remove("dark");
+          toggle.textContent = "Dark Mode 🌙";
+          try{ localStorage.setItem("hailTheme","light"); }catch(e){}
+        }
+      }
+
+      // init
+      let saved = null;
+      try{ saved = localStorage.getItem("hailTheme"); }catch(e){}
+      if(saved === "dark") setTheme("dark");
+      else if(saved === "light") setTheme("light");
+
+      toggle.addEventListener("click", () => {
+        const isDark = htmlEl.getAttribute("data-theme") === "dark" || document.body.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
+      });
+    })();
+
+  </script>
+</body>
+</html>
